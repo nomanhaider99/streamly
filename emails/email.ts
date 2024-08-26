@@ -3,14 +3,14 @@ import nodemailer from "nodemailer"
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: "noman567n@gmail.com",
-      pass: "nsavyaoiifvffntv",
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
     },
   });
   
   export async function sendEmail(email: string, link: string) {
     const info = await transporter.sendMail({
-      from: '"Streamly" <no-reply@streamly.com>',
+      from: '"Streamly" <streamly@streamly.com>',
       to: email,
       subject: "Complete Your Verification",
       text: "Click on the link below to verify your account.",

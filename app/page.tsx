@@ -16,7 +16,7 @@ export default function Home() {
     if (!firstName || !lastName || !email || !password) {
       toast.error("All fields are required!")
     }
-    const res = await fetch('http://localhost:3000/api/signup', {
+    const res = await fetch('/api/signup', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -35,14 +35,13 @@ export default function Home() {
   }
 
   return (
-    <main className=" min-h-screen w-full  bg-black flex flex-col selection:text-black selection:bg-white">
-      
-      <h1 className="text-blue-600 font-extrabold tracking-tighter text-2xl p-4 pl-20">Streamly</h1>
-      <div className="w-full mt-10 h-[30vw] flex items-center">
-        <div className="left w-1/2 pl-20">
-          <h1 className="text-white font-extrabold text-3xl">Register your account</h1>
+    <main className="min-h-screen w-full bg-black flex flex-col selection:text-black selection:bg-white">
+      <h1 className="text-blue-600 font-extrabold tracking-tighter lg:text-2xl p-4 lg:pl-20 ">Streamly</h1>
+      <div className="w-full lg:mt-14 mt-5 h-[30vw] flex lg:flex-row lg:items-center sm:flex-col-reverse">
+        <div className="left lg:w-1/2 w-full lg:pl-20 pl-5">
+          <h1 className="text-white font-extrabold lg:text-3xl text-2xl">Register your account</h1>
           <form onSubmit={handleSubmit} className="w-3/4 pt-4">
-            <div className="names flex items-center w-full ">
+            <div className="names lg:flex lg:items-center w-full ">
               <div className="first">
                 <label htmlFor="firstName" className="text-zinc-400 text-sm font-semibold">First name</label>
                 <br />
@@ -52,10 +51,10 @@ export default function Home() {
                   value={firstName}
                   type="text"
                   placeholder="James"
-                  className="bg-transparent capitalize border-[0.1px] border-zinc-100 px-4 text-sm rounded outline-none py-2 text-white"
+                  className="bg-transparent capitalize border-[0.1px] border-zinc-100 px-4 lg:text-sm text-xs rounded outline-none py-2 text-white w-[85vw] lg:w-[17.7vw]"
                 />
               </div>
-              <div className="last ml-4">
+              <div className="last lg:ml-4">
                 <label htmlFor="lastName" className="text-zinc-400 text-sm font-semibold">Last name</label>
                 <br />
                 <input
@@ -64,7 +63,7 @@ export default function Home() {
                   value={lastName}
                   type="text"
                   placeholder="Wanny"
-                  className="bg-transparent capitalize border-[0.1px] border-zinc-100 px-4 text-sm rounded outline-none py-2 text-white"
+                  className="bg-transparent capitalize border-[0.1px] border-zinc-100 px-4 lg:text-sm text-xs rounded outline-none py-2 text-white w-[85vw] lg:w-[17.7vw]"
                 />
               </div>
             </div>
@@ -77,7 +76,7 @@ export default function Home() {
                 value={email}
                 type="text"
                 placeholder="james@email.com"
-                className="w-[36.8vw] lowercase bg-transparent border-[0.1px] border-zinc-100 px-4 text-sm rounded outline-none py-2 text-white"
+                className="lg:w-[36.8vw] w-[85vw] lowercase bg-transparent border-[0.1px] border-zinc-100 px-4 xl:text-sm text-xs rounded outline-none py-2 text-white"
               />
             </div>
             <div className="password pt-2">
@@ -89,22 +88,22 @@ export default function Home() {
                 value={password}
                 type="password"
                 placeholder="................."
-                className="w-[36.8vw] bg-transparent border-[0.1px] border-zinc-100 px-4 text-sm rounded outline-none py-2 text-white"
+                className="lg:w-[36.8vw] w-[85vw] bg-transparent border-[0.1px] border-zinc-100 px-4 text-sm rounded outline-none py-2 text-white"
               />
             </div>
-            <p className="pt-4 text-zinc-400 text-sm">I have read the user agreement and I agree to the rules and regulations.</p>
-            <button className="w-[36.8vw] rounded py-2 text-sm mt-4 text-white bg-blue-600 font-bold">Sign up</button>
+            <p className="pt-4 text-zinc-400 lg:text-sm text-[10px] w-[85vw]">I have read the user agreement and I agree to the rules and regulations.</p>
+            <button className="lg:w-[36.8vw] w-[85vw] rounded py-2 text-sm mt-4 text-white bg-blue-600 font-bold">Sign up</button>
           </form>
           <Link href={"/signin"}>
-            <p className='text-zinc-200 mt-4 text-sm ml-28'>Already have an account? <span className='text-blue-600'>Login</span></p>
+            <p className='text-zinc-200 mt-4 lg:text-sm lg:ml-28 text-[10px] ml-10'>Already have an account? <span className='text-blue-600'>Login</span></p>
           </Link>
         </div>
-        <div className="right w-1/2 px-10">
-          <h1 className="text-[10vw] font-extrabold leading-none tracking-tighter text-white">A <span className="text-blue-600">TRUE</span> GAMER.</h1>
+        <div className="right lg:w-1/2 px-10 pt-4">
+          <h1 className="lg:text-[10vw] text-3xl font-extrabold leading-none tracking-tighter text-white">A <span className="text-blue-600">TRUE</span> GAMER.</h1>
         </div>
       </div>
-      <div className="footer pt-16">
-        <h2 className="text-center text-xs text-white">copyright @streamly 2022</h2>
+      <div className="footer lg:pt-16 pt-[124vw] w-full -ml-3">
+        <h2 className="text-center lg:text-xs text-[10px] text-white">copyright @streamly 2022</h2>
       </div>
     </main>
   );

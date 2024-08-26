@@ -1,5 +1,3 @@
-// src/auth.ts
-
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcryptjs from "bcryptjs";
@@ -24,6 +22,9 @@ const authOptions = {
           const user = await userModel.findOne({ email });
           if (!user) {
             throw new Error("User does not exist!");
+          } 
+          if (!user.isVerified) {
+            throw new Error("User not verified!");
           }
 
           // Check if the password matches

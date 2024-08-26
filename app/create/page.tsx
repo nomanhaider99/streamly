@@ -5,25 +5,22 @@ import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const CreatePage: React.FC = () => {
   const { data: session, status } = useSession();
-  const email = session?.user.email
   const router = useRouter();
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (!session) {
-    router.push('/signin');
-    toast.error("Login first");
-    return null;
-  }
   const [description, setDescription] = useState<string>('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/signin');
+      toast.error('Login first');
+    }
+  }, [status, router]);
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -32,7 +29,7 @@ const CreatePage: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!description || !email) {
+    if (!description || !session?.user?.email) {
       toast.error('Description and email are required.');
       return;
     }
@@ -44,7 +41,7 @@ const CreatePage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
+          email: session.user.email,
           description,
           image: selectedImage,
         }),
@@ -54,7 +51,6 @@ const CreatePage: React.FC = () => {
 
       if (response.ok) {
         toast.success('Post created successfully!');
-        // Reset the form if needed
         setDescription('');
         setSelectedImage(null);
       } else {
@@ -67,6 +63,10 @@ const CreatePage: React.FC = () => {
     }
   };
 
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="w-full h-screen bg-black flex selection:text-black selection:bg-white">
       {/* Fixed Navbar */}
@@ -74,18 +74,26 @@ const CreatePage: React.FC = () => {
         <div className="logo">
           <h1 className="text-blue-600 font-extrabold tracking-tighter text-2xl -mt-10 pl-5">Streamly</h1>
           <div className="links text-white px-5 pt-5 font-bold">
-          <Link href={"/dashboard"}><h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Dashboard</h2></Link>
-           <Link href={"/create"}><h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Create</h2></Link>
-            <Link href={"/alerts"}><h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Alerts</h2></Link>
-            <Link href={"/profile"}><h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Profile</h2></Link>
+            <Link href="/dashboard">
+              <h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Dashboard</h2>
+            </Link>
+            <Link href="/create">
+              <h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Create</h2>
+            </Link>
+            <Link href="/alerts">
+              <h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Alerts</h2>
+            </Link>
+            <Link href="/profile">
+              <h2 className="my-6 hover:bg-zinc-50 hover:text-black px-4 cursor-pointer transition-all py-2 rounded">Profile</h2>
+            </Link>
           </div>
         </div>
         <div className="logout">
-          <LogOut onClick={() => signOut({ callbackUrl: "/signin" })} color="#ffffff" className="mx-8 mb-20 cursor-pointer" />
+          <LogOut onClick={() => signOut({ callbackUrl: '/signin' })} color="#ffffff" className="mx-8 mb-20 cursor-pointer" />
         </div>
       </div>
 
-      {/* Scrollable Posts Section */}
+      {/* Create Post Section */}
       <div className="create w-full h-screen overflow-y-scroll px-20 flex flex-col py-20 ml-[25vw]">
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="section w-3/4 px-5 py-4 shadow-sm shadow-zinc-200/50 rounded relative">

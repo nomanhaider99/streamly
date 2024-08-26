@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     await db();
     try {
         const { firstName, lastName, email, password } = await request.json();
-        const link = `http://localhost:3000/verification?email=${encodeURIComponent(email)}`
+        const link = `https://streamly-topaz.vercel.app/verification?email=${encodeURIComponent(email)}`
         // Check if user already exists
         const userExists = await userModel.findOne({ email });
         if (userExists) {
